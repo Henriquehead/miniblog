@@ -1,3 +1,4 @@
+import { useAutentication } from "../../hooks/useAutentication";
 import styles from "./Registrer.module.css";
 
 import { useState, useEffect } from "react";
@@ -11,8 +12,11 @@ const Registrer = () => {
 
   const [error, setError] = useState("");
 
+  //Custom hook
+  const { createUser, error: authError, loading } = useAutentication();
+
   //Metodo para enviar submit do form
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     setError("");
@@ -28,7 +32,10 @@ const Registrer = () => {
       setError("As senhas precisam ser iguais!");
       return;
     }
-    console.log(user);
+
+    const res = await createUser(user);
+
+    console.log(res);
   };
 
   return (
